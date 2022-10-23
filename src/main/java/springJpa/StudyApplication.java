@@ -6,8 +6,8 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.transaction.annotation.Transactional;
 import springJpa.domain.Post;
+import springJpa.domain.User;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -23,10 +23,17 @@ public class StudyApplication {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				Post post = new Post();
-				post.setUserId((long) j);
 				post.setAuthor("휴먼" + j);
 				post.setTitle("heHe" + j);
+
+				User user = new User();
+				user.setName("태균" + j);
+
+				post.setUser(user);
+
 				em.persist(post);
+				em.persist(user);
+
 			}
 		}
 	}

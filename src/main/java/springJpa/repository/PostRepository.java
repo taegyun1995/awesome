@@ -13,8 +13,8 @@ public class PostRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<Post> findAll(Long userId) {
-        return em.createQuery("select p from Post p where userId = :userId", Post.class)
+    public List<Post> findByUserId(Long userId) {
+        return em.createQuery("select p from Post p join fetch p.user u where p.user.id = :userId", Post.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }
