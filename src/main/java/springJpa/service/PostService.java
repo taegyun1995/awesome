@@ -1,6 +1,7 @@
 package springJpa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import springJpa.domain.Post;
 import springJpa.repository.PostRepository;
@@ -14,11 +15,14 @@ public class PostService {
     private PostRepository postRepository;
 
     public List<Post> findAll(Long userId) {
-        return postRepository.findByUserId(userId);
+        return postRepository.findAllByUserId(userId);
     }
 
     public List<Post> findTop3Limit(Long userId) {
         return postRepository.findTop50ByUserIdOrderByIdDesc(userId);
     }
 
+//    public List<Post> findAllByUserId(Long userId, Pageable pageable) {
+//        return postRepository.findAllByUserId(userId, pageable);
+//    }
 }
