@@ -26,7 +26,8 @@ public class PostController {
     private PostRepository postRepository;
 
     @GetMapping("/posts")
-    public Map<String, Object> getPostPage(@RequestParam("userId") Long userId, @RequestParam("page") int page,
+    public Map<String, Object> getPostPage(@RequestParam("userId") Long userId,
+                                           @RequestParam("page") int page,
                                            Pageable pageable) {
 
         Map<String, Object> map = new HashMap<>();
@@ -35,9 +36,14 @@ public class PostController {
         PageRequest pr = PageRequest.of(page-1, 50);
         Page<Post> postList = postRepository.findByUserIdOrderByIdDesc(userId, pr);
 
+        int postSize = postRepository.findAll().size();
+
+        int lastPage = Math.max((int)Math.ceil(postSize / 50), 1);
+
         // { post_list: [] }
         map.put("post_list", postList.getContent());
-        map.put("pageable", postList);
+//        map.put("pageable", postList);
+        map.put("last_page", lastPage);
 
         return map;
     }

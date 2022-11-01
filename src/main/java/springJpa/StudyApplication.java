@@ -21,7 +21,7 @@ public class StudyApplication {
 	@Transactional
 	@EventListener(ApplicationReadyEvent.class) // application 준비 https://mr-popo.tistory.com/113
 	public void started(){
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 15; i++) {
 
 			LocalDateTime date = LocalDateTime.now();
 
