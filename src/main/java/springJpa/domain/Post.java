@@ -1,6 +1,8 @@
 package springJpa.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Post {
@@ -16,7 +18,12 @@ public class Post {
     @JoinColumn(name = "userId")
     private User user;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "postId")
+    private List<Comment> comments = new ArrayList<>();
+
     public Long getId() {
+
         return id;
     }
 
@@ -48,4 +55,11 @@ public class Post {
         this.user = user;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 }

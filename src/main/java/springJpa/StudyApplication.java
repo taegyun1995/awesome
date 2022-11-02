@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.transaction.annotation.Transactional;
+import springJpa.domain.Comment;
 import springJpa.domain.Post;
 import springJpa.domain.User;
 
@@ -21,7 +22,7 @@ public class StudyApplication {
 	@Transactional
 	@EventListener(ApplicationReadyEvent.class) // application 준비 https://mr-popo.tistory.com/113
 	public void started(){
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 20; i++) {
 
 			LocalDateTime date = LocalDateTime.now();
 
@@ -29,14 +30,21 @@ public class StudyApplication {
 			user.setName("태균" + i);
 			user.setCreatedAt(date);
 
-			for (int j = 0; j < 100; j++) {
-				Post post = new Post();
-				post.setAuthor("휴먼" + j);
-				post.setTitle("heHe" + j);
-				post.setUser(user);
+			em.persist(user);
 
+			Post post = new Post();
+			post.setAuthor("휴먼" + i);
+			post.setTitle("heHe" + i);
+			post.setUser(user);
+
+
+			for (int j = 0; j < 10; j++) {
+				Comment comment = new Comment();
+				comment.setContent("gg" + j);
+				comment.setCreatedAt(date);
+				post.getComments().add(comment);
+				em.persist(comment);
 				em.persist(post);
-				em.persist(user);
 			}
 		}
 	}
