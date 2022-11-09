@@ -1,5 +1,7 @@
 package springJpa.domain;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +17,13 @@ public class Post {
     private String title;
     private String author;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
-    private User user;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "postId")
-    private List<Comment> comments = new ArrayList<>();
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "userId")
+//    private User user;
+//
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "postId")
+//    private List<Comment> comments = new ArrayList<>();
 
     public Long getId() {
 
@@ -48,19 +50,29 @@ public class Post {
         this.author = author;
     }
 
-    public User getUser() {
-        return user;
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
+//
+//    public List<Comment> getComments() {
+//        return comments;
+//    }
+//
+//    public void setComments(List<Comment> comments) {
+//        this.comments = comments;
+//    }
+
+
+    public Post() {
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public Post(Long id, String title, String author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
     }
 }

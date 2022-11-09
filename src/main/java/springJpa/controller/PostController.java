@@ -1,59 +1,75 @@
 package springJpa.controller;
 
-import net.bytebuddy.utility.nullability.AlwaysNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springJpa.domain.Post;
-import springJpa.repository.PostRepository;
 import springJpa.service.PostService;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class PostController {
 
-    @Autowired
-    private PostRepository postRepository;
+    private final PostService postService;
 
-
-    private PostService postService;
-    @Autowired
     public PostController(PostService postService) {
         this.postService = postService;
     }
 
-    public PostController(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
-
-    @GetMapping("/posts")
-    public Map<String, Object> getPostPage(@RequestParam("postId") Long postId,
-                                           @RequestParam("page") int page,
-                                           Pageable pageable) {
-
+    @PostMapping("/post")
+    public Map<String, Object> createPost(@ModelAttribute Post post) {
         Map<String, Object> map = new HashMap<>();
-//        List<Post> posts = postService.findAll(userId);
-//        List<Post> postList = postService.findTop3Limit(userId);
-        PageRequest pr = PageRequest.of(page - 1, 5);
-//        Page<Post> postList = postRepository.findByUserIdOrderByIdDesc(userId, pr);
-        List<Post> postList = postService.findByIdOrderByIdDesc(postId, pr);
+        Post savePost = postService.create(post);
 
-        int postSize = postRepository.findAll().size();
-
-        int lastPage = Math.max((int) Math.ceil(postSize / 5), 1);
-
-        // { post_list: [] }
-        map.put("post_list", postList);
-//        map.put("pageable", postList);
-        map.put("last_page", lastPage);
+        map.put("post", savePost);
 
         return map;
     }
+
+    @GetMapping("/get/post")
+    public Map<String, Object> getPost(Long postId) {
+        Map<String, Object> map = new HashMap<>();
+        Optional<Post> post = postService.findOne(postId);
+
+        map.put("post", post);
+
+        return map;
+    }
+
+    @GetMapping("/get/postList")
+    public Map<String, Object> getPosts() {
+        Map<String, Object> map = new HashMap<>();
+
+        List<Post> postList = postService.findAll();
+        map.put("postList", postList);
+
+        return map;
+    }
+
+
+//    @GetMapping("/posts")
+//    public Map<String, Object> getPostPage(@RequestParam("postId") Long postId,
+//                                           @RequestParam("page") int page,
+//                                           Pageable pageable) {
+//
+//        Map<String, Object> map = new HashMap<>();
+////        List<Post> posts = postService.findAll(userId);
+////        List<Post> postList = postService.findTop3Limit(userId);
+//        PageRequest pr = PageRequest.of(page - 1, 5);
+////        Page<Post> postList = postRepository.findByUserIdOrderByIdDesc(userId, pr);
+//        List<Post> postList = postService.findByIdOrderByIdDesc(postId, pr);
+//
+//        int postSize = postRepository.findAll().size();
+//
+//        int lastPage = Math.max((int) Math.ceil(postSize / 5), 1);
+//
+//        // { post_list: [] }
+//        map.put("post_list", postList);
+////        map.put("pageable", postList);
+//        map.put("last_page", lastPage);
+//
+//        return map;
+//    }
 }

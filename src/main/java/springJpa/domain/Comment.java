@@ -3,7 +3,7 @@ package springJpa.domain;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+//@Entity
 public class Comment {
 
     @Id
