@@ -1,46 +1,75 @@
 package springJpa.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springJpa.domain.Post;
-import springJpa.repository.PostRepository;
 import springJpa.service.PostService;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class PostController {
 
-    @PersistenceContext
-    private EntityManager em;
+    private final PostService postService;
 
-    @Autowired
-    private PostService postService;
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
 
-    @Autowired
-    private PostRepository postRepository;
-
-    @PostMapping("/posts")
-    public Map<String, Object> getPosts(@RequestParam("userId") Long userId) {
-        // -> user_id
-        // post.user_id 찾아
-        // post_list 반환
-
+    @PostMapping("/post")
+    public Map<String, Object> createPost(@ModelAttribute Post post) {
         Map<String, Object> map = new HashMap<>();
-        List<Post> posts = postService.findAll(userId);
+        Post savePost = postService.create(post);
 
-        // { post_list: [] }
-        map.put("post_list", posts);
+        map.put("post", savePost);
 
         return map;
     }
+
+    @GetMapping("/get/post")
+    public Map<String, Object> getPost(Long postId) {
+        Map<String, Object> map = new HashMap<>();
+        Optional<Post> post = postService.findOne(postId);
+
+        map.put("post", post);
+
+        return map;
+    }
+
+    @GetMapping("/get/postList")
+    public Map<String, Object> getPosts() {
+        Map<String, Object> map = new HashMap<>();
+
+        List<Post> postList = postService.findAll();
+        map.put("postList", postList);
+
+        return map;
+    }
+
+
+//    @GetMapping("/posts")
+//    public Map<String, Object> getPostPage(@RequestParam("postId") Long postId,
+//                                           @RequestParam("page") int page,
+//                                           Pageable pageable) {
+//
+//        Map<String, Object> map = new HashMap<>();
+////        List<Post> posts = postService.findAll(userId);
+////        List<Post> postList = postService.findTop3Limit(userId);
+//        PageRequest pr = PageRequest.of(page - 1, 5);
+////        Page<Post> postList = postRepository.findByUserIdOrderByIdDesc(userId, pr);
+//        List<Post> postList = postService.findByIdOrderByIdDesc(postId, pr);
+//
+//        int postSize = postRepository.findAll().size();
+//
+//        int lastPage = Math.max((int) Math.ceil(postSize / 5), 1);
+//
+//        // { post_list: [] }
+//        map.put("post_list", postList);
+////        map.put("pageable", postList);
+//        map.put("last_page", lastPage);
+//
+//        return map;
+//    }
 }
