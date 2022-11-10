@@ -3,10 +3,12 @@ package springJpa.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springJpa.domain.Post;
+import springJpa.dto.PostForm;
 import springJpa.repository.PostRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,14 +46,24 @@ public class PostService {
         return getPosts;
     }
 
+//    @Transactional
+//    public void update(Post post) {
+//        Long postId = post.getId();
+//        Post findPost  = postRepository.findById(postId).get();
+//
+//        findPost.setTitle(post.getTitle());
+//        findPost.setAuthor(post.getAuthor());
+//        postRepository.save(findPost);
+//    }
+
     @Transactional
-    public void updatePost(Post post) {
-        Long postId = post.getId();
+    public void update(PostForm postForm) {
+        Post findPost  = postRepository.findById(postForm.getPostId()).get();
 
-        Optional<Post> getPost  = postRepository.findById(postId);
+        findPost.setTitle(postForm.getTitle());
+        findPost.setAuthor(postForm.getAuthor());
+        postRepository.save(findPost);
     }
-
-
 
 //    @Transactional
 //    public List<Post> findByIdOrderByIdDesc(Long id, Pageable pageable) {

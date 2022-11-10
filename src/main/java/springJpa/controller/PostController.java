@@ -2,6 +2,7 @@ package springJpa.controller;
 
 import org.springframework.web.bind.annotation.*;
 import springJpa.domain.Post;
+import springJpa.dto.PostForm;
 import springJpa.service.PostService;
 
 import java.util.HashMap;
@@ -28,7 +29,7 @@ public class PostController {
         return map;
     }
 
-    @GetMapping("/get/post")
+    @GetMapping("/posts/{postId}")
     public Map<String, Object> getPost(Long postId) {
         Map<String, Object> map = new HashMap<>();
         Optional<Post> post = postService.findOne(postId);
@@ -38,12 +39,22 @@ public class PostController {
         return map;
     }
 
-    @GetMapping("/get/postList")
+    @GetMapping("/posts")
     public Map<String, Object> getPosts() {
         Map<String, Object> map = new HashMap<>();
 
         List<Post> postList = postService.findAll();
         map.put("postList", postList);
+
+        return map;
+    }
+
+    @PutMapping("/post/{postId}")
+    public Map<String, Object> updatePost(@ModelAttribute PostForm postForm) {
+        Map<String, Object> map = new HashMap<>();
+
+        postService.update(postForm);
+        map.put("postId", postForm.getPostId());
 
         return map;
     }
