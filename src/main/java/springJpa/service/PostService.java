@@ -3,12 +3,12 @@ package springJpa.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springJpa.domain.Post;
+import springJpa.domain.User;
 import springJpa.dto.PostForm;
 import springJpa.repository.PostRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +35,8 @@ public class PostService {
     @Transactional
     public Optional<Post> findOne(Long postId) {
         Optional<Post> findPost = postRepository.findById(postId);
+        User user = findPost.get().getUser();
+
 
         return findPost;
     }
@@ -58,7 +60,7 @@ public class PostService {
 
     @Transactional
     public void update(PostForm postForm) {
-        Post findPost  = postRepository.findById(postForm.getPostId()).get();
+        Post findPost = postRepository.findById(postForm.getPostId()).get();
 
         findPost.setTitle(postForm.getTitle());
         findPost.setAuthor(postForm.getAuthor());
@@ -71,7 +73,6 @@ public class PostService {
 //                .setParameter("id", id)
 //                .getResultList();
 //    }
-
 
 
 }

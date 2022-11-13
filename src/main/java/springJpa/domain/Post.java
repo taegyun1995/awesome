@@ -1,10 +1,6 @@
 package springJpa.domain;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class Post {
@@ -17,10 +13,10 @@ public class Post {
     private String title;
     private String author;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "userId")
-//    private User user;
-//
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId")
+    private User user;
+
 //    @OneToMany(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "postId")
 //    private List<Comment> comments = new ArrayList<>();
@@ -50,14 +46,14 @@ public class Post {
         this.author = author;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
-//
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 //    public List<Comment> getComments() {
 //        return comments;
 //    }
@@ -70,9 +66,10 @@ public class Post {
     public Post() {
     }
 
-    public Post(Long id, String title, String author) {
+    public Post(Long id, String title, String author, User user) {
         this.id = id;
         this.title = title;
         this.author = author;
+        this.user = user;
     }
 }

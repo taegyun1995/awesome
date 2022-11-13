@@ -3,7 +3,7 @@ package springJpa.domain;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-//@Entity
+@Entity
 public class User {
 
     @Id
@@ -31,11 +31,21 @@ public class User {
         this.name = name;
     }
 
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public User() {
+    }
+
+    public User(Long id, String name, LocalDateTime createdAt) {
+        this.id = id;
+        this.name = name;
         this.createdAt = createdAt;
     }
 }

@@ -3,7 +3,7 @@ package springJpa.domain;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-//@Entity
+@Entity
 public class Comment {
 
     @Id
@@ -12,6 +12,10 @@ public class Comment {
     private Long id;
 
     private String content;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    private User user;
 
     private LocalDateTime createdAt;
 
@@ -31,11 +35,29 @@ public class Comment {
         this.content = content;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Comment() {
+    }
+
+    public Comment(Long id, String content, User user, LocalDateTime createdAt) {
+        this.id = id;
+        this.content = content;
+        this.user = user;
         this.createdAt = createdAt;
     }
 }

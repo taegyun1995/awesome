@@ -29,8 +29,8 @@ public class PostController {
         return map;
     }
 
-    @GetMapping("/posts/{postId}")
-    public Map<String, Object> getPost(Long postId) {
+    @GetMapping("/post/{postId}")
+    public Map<String, Object> getPost(@PathVariable("postId") Long postId) {
         Map<String, Object> map = new HashMap<>();
         Optional<Post> post = postService.findOne(postId);
 

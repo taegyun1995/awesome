@@ -17,8 +17,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAll();
 
-
-
 //    public List<Post> findByUserId(Long userId) {
 //        return em.createQuery("select p from Post p join fetch p.user u where p.user.id = : userId", Post.class)
 //                .setParameter("userId", userId)
