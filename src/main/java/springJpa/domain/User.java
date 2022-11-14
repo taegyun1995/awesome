@@ -1,17 +1,22 @@
 package springJpa.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     @Column(name = "userId")
     private Long id;
 
     private String name;
+
+//    @JsonManagedReference
+    @OneToOne(mappedBy = "user")
+    private Post post;
 
     private LocalDateTime createdAt;
 
@@ -31,6 +36,13 @@ public class User {
         this.name = name;
     }
 
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -43,9 +55,10 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String name, LocalDateTime createdAt) {
+    public User(Long id, String name, Post post, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
+        this.post = post;
         this.createdAt = createdAt;
     }
 }

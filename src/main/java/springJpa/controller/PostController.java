@@ -3,6 +3,8 @@ package springJpa.controller;
 import org.springframework.web.bind.annotation.*;
 import springJpa.domain.Post;
 import springJpa.dto.PostForm;
+import springJpa.dto.PostResponse;
+import springJpa.dto.PostUserResponse;
 import springJpa.service.PostService;
 
 import java.util.HashMap;
@@ -34,7 +36,8 @@ public class PostController {
         Map<String, Object> map = new HashMap<>();
         Optional<Post> post = postService.findOne(postId);
 
-        map.put("post", post);
+        PostResponse postResponse = new PostResponse(post.get().getTitle(), post.get().getAuthor(), new PostUserResponse(post.get().getUser().getName()));
+        map.put("post", postResponse);
 
         return map;
     }
