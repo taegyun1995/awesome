@@ -6,16 +6,19 @@ import java.time.LocalDateTime;
 @Entity
 public class Comment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     @Column(name = "commentId")
     private Long id;
 
     private String content;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
     private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "postId")
+    private Post post;
 
     private LocalDateTime createdAt;
 
@@ -43,6 +46,14 @@ public class Comment {
         this.user = user;
     }
 
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -54,10 +65,11 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(Long id, String content, User user, LocalDateTime createdAt) {
+    public Comment(Long id, String content, User user, Post post, LocalDateTime createdAt) {
         this.id = id;
         this.content = content;
         this.user = user;
+        this.post = post;
         this.createdAt = createdAt;
     }
 }

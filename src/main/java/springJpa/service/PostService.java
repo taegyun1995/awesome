@@ -4,12 +4,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springJpa.domain.Post;
 import springJpa.domain.User;
-import springJpa.dto.PostForm;
 import springJpa.repository.PostRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -26,6 +25,9 @@ public class PostService {
 
     @Transactional
     public Post create(Post post) {
+        LocalDateTime date = LocalDateTime.now();
+
+        post.setCreatedAt(date);
         Post savePost = postRepository.save(post);
         em.persist(savePost);
 
@@ -35,18 +37,16 @@ public class PostService {
     @Transactional
     public Optional<Post> findOne(Long postId) {
         Optional<Post> findPost = postRepository.findById(postId);
-        User user = findPost.get().getUser();
-
 
         return findPost;
     }
 
-    @Transactional
-    public List<Post> findAll() {
-        List<Post> getPosts = postRepository.findAll();
-
-        return getPosts;
-    }
+//    @Transactional
+//    public List<Post> findAll() {
+//        List<Post> getPosts = postRepository.findAll();
+//
+//        return getPosts;
+//    }
 
 //    @Transactional
 //    public void update(Post post) {
@@ -58,14 +58,14 @@ public class PostService {
 //        postRepository.save(findPost);
 //    }
 
-    @Transactional
-    public void update(PostForm postForm) {
-        Post findPost = postRepository.findById(postForm.getPostId()).get();
-
-        findPost.setTitle(postForm.getTitle());
-        findPost.setAuthor(postForm.getAuthor());
-        postRepository.save(findPost);
-    }
+//    @Transactional
+//    public void update(PostForm postForm) {
+//        Post findPost = postRepository.findById(postForm.getPostId()).get();
+//
+//        findPost.setTitle(postForm.getTitle());
+//        findPost.setAuthor(postForm.getAuthor());
+//        postRepository.save(findPost);
+//    }
 
 //    @Transactional
 //    public List<Post> findByIdOrderByIdDesc(Long id, Pageable pageable) {

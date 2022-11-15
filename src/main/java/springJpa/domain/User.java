@@ -1,9 +1,9 @@
 package springJpa.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -14,9 +14,11 @@ public class User {
 
     private String name;
 
-//    @JsonManagedReference
-    @OneToOne(mappedBy = "user")
-    private Post post;
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments = new ArrayList<>();
 
     private LocalDateTime createdAt;
 
@@ -36,12 +38,20 @@ public class User {
         this.name = name;
     }
 
-    public Post getPost() {
-        return post;
+    public List<Post> getPosts() {
+        return posts;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -55,10 +65,11 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String name, Post post, LocalDateTime createdAt) {
+    public User(Long id, String name, List<Post> posts, List<Comment> comments, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
-        this.post = post;
+        this.posts = posts;
+        this.comments = comments;
         this.createdAt = createdAt;
     }
 }

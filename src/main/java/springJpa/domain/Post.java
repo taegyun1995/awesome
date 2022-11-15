@@ -1,8 +1,9 @@
 package springJpa.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Post {
@@ -12,16 +13,18 @@ public class Post {
     private Long id;
 
     private String title;
-    private String author;
+    private String content;
 
-//    @JsonBackReference
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
     private User user;
 
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "postId")
-//    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "commentId")
+    private List<Comment> comments = new ArrayList<>();
+
+    private LocalDateTime createdAt;
+
 
     public Long getId() {
 
@@ -40,12 +43,12 @@ public class Post {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getContent() {
+        return content;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public User getUser() {
@@ -56,22 +59,31 @@ public class Post {
         this.user = user;
     }
 
-//    public List<Comment> getComments() {
-//        return comments;
-//    }
-//
-//    public void setComments(List<Comment> comments) {
-//        this.comments = comments;
-//    }
+    public List<Comment> getComments() {
+        return comments;
+    }
 
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public Post() {
     }
 
-    public Post(Long id, String title, String author, User user) {
+    public Post(Long id, String title, String content, User user, List<Comment> comments, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
-        this.author = author;
+        this.content = content;
         this.user = user;
+        this.comments = comments;
+        this.createdAt = createdAt;
     }
 }

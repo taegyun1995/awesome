@@ -42,10 +42,10 @@ public class UserService {
         return findUser;
     }
 
-    @Transactional
-    public List<User> findAll() {
-        List<User> userList = userRepository.findAll();
-
-        return userList;
-    }
+//    @Transactional
+//    public List<User> findAll() {
+//        List<User> userList = userRepository.findAll();
+//
+//        return userList;
+//    }
 }

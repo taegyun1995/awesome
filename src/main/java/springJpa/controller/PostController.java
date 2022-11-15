@@ -2,13 +2,14 @@ package springJpa.controller;
 
 import org.springframework.web.bind.annotation.*;
 import springJpa.domain.Post;
-import springJpa.dto.PostForm;
-import springJpa.dto.PostResponse;
-import springJpa.dto.PostUserResponse;
+import springJpa.dto.CommentDTO;
+import springJpa.dto.PostCommentDTO;
+import springJpa.dto.PostDTO;
+import springJpa.dto.PostUserDTO;
 import springJpa.service.PostService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,8 +26,10 @@ public class PostController {
     public Map<String, Object> createPost(@ModelAttribute Post post) {
         Map<String, Object> map = new HashMap<>();
         Post savePost = postService.create(post);
+        PostDTO postDto = new PostDTO(savePost.getId(), savePost.getTitle(), savePost.getContent(), savePost.getCreatedAt(),
+                new PostUserDTO(savePost.getUser().getId(), savePost.getUser().getName(), savePost.getUser().getCreatedAt()));
 
-        map.put("post", savePost);
+        map.put("post", postDto);
 
         return map;
     }
@@ -36,31 +39,32 @@ public class PostController {
         Map<String, Object> map = new HashMap<>();
         Optional<Post> post = postService.findOne(postId);
 
-        PostResponse postResponse = new PostResponse(post.get().getTitle(), post.get().getAuthor(), new PostUserResponse(post.get().getUser().getName()));
-        map.put("post", postResponse);
+        PostDTO postDto = new PostDTO(post.get().getId(),post.get().getTitle(), post.get().getContent(), post.get().getCreatedAt(),
+                new PostUserDTO(post.get().getUser().getId(), post.get().getUser().getName(), post.get().getCreatedAt()));
+        map.put("post", postDto);
 
         return map;
     }
 
-    @GetMapping("/posts")
-    public Map<String, Object> getPosts() {
-        Map<String, Object> map = new HashMap<>();
+//    @GetMapping("/posts")
+//    public Map<String, Object> getPosts() {
+//        Map<String, Object> map = new HashMap<>();
+//
+//        List<Post> postList = postService.findAll();
+//        map.put("postList", postList);
+//
+//        return map;
+//    }
 
-        List<Post> postList = postService.findAll();
-        map.put("postList", postList);
-
-        return map;
-    }
-
-    @PutMapping("/post/{postId}")
-    public Map<String, Object> updatePost(@ModelAttribute PostForm postForm) {
-        Map<String, Object> map = new HashMap<>();
-
-        postService.update(postForm);
-        map.put("postId", postForm.getPostId());
-
-        return map;
-    }
+//    @PutMapping("/post/{postId}")
+//    public Map<String, Object> updatePost(@ModelAttribute PostForm postForm) {
+//        Map<String, Object> map = new HashMap<>();
+//
+//        postService.update(postForm);
+//        map.put("postId", postForm.getPostId());
+//
+//        return map;
+//    }
 
 
 //    @GetMapping("/posts")
