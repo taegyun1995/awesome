@@ -2,13 +2,10 @@ package springJpa.controller;
 
 import org.springframework.web.bind.annotation.*;
 import springJpa.domain.Post;
-import springJpa.dto.CommentDTO;
-import springJpa.dto.PostCommentDTO;
 import springJpa.dto.PostDTO;
 import springJpa.dto.PostUserDTO;
 import springJpa.service.PostService;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -39,12 +36,13 @@ public class PostController {
         Map<String, Object> map = new HashMap<>();
         Optional<Post> post = postService.findOne(postId);
 
-        PostDTO postDto = new PostDTO(post.get().getId(),post.get().getTitle(), post.get().getContent(), post.get().getCreatedAt(),
-                new PostUserDTO(post.get().getUser().getId(), post.get().getUser().getName(), post.get().getCreatedAt()));
+        PostDTO postDto = PostDTO.mapper(post);
         map.put("post", postDto);
 
         return map;
     }
+
+
 
 //    @GetMapping("/posts")
 //    public Map<String, Object> getPosts() {

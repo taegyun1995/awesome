@@ -19,8 +19,7 @@ public class Post {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "commentId")
+    @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
 
     private LocalDateTime createdAt;
