@@ -6,9 +6,7 @@ import springJpa.dto.PostDTO;
 import springJpa.dto.PostUserDTO;
 import springJpa.service.PostService;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class PostController {
@@ -22,6 +20,7 @@ public class PostController {
     @PostMapping("/post")
     public Map<String, Object> createPost(@ModelAttribute Post post) {
         Map<String, Object> map = new HashMap<>();
+
         Post savePost = postService.create(post);
         PostDTO postDto = new PostDTO(savePost.getId(), savePost.getTitle(), savePost.getContent(), savePost.getCreatedAt(),
                 new PostUserDTO(savePost.getUser().getId(), savePost.getUser().getName(), savePost.getUser().getCreatedAt()));
@@ -34,25 +33,47 @@ public class PostController {
     @GetMapping("/post/{postId}")
     public Map<String, Object> getPost(@PathVariable("postId") Long postId) {
         Map<String, Object> map = new HashMap<>();
-        Optional<Post> post = postService.findOne(postId);
 
-        PostDTO postDto = PostDTO.mapper(post);
+        Optional<Post> post = postService.findOne(postId);
+        PostDTO postDto = PostDTO.optionalMapper(post);
         map.put("post", postDto);
 
         return map;
     }
 
+    @GetMapping("/posts/V1")
+    public Map<String, Object> getPostsV1() {
+        Map<String, Object> map = new HashMap<>();
 
+        List<Post> postList = postService.findAll();
+        List<PostDTO> postDTOs = new ArrayList<>();
 
-//    @GetMapping("/posts")
-//    public Map<String, Object> getPosts() {
-//        Map<String, Object> map = new HashMap<>();
-//
-//        List<Post> postList = postService.findAll();
-//        map.put("postList", postList);
-//
-//        return map;
-//    }
+        for (Post post : postList) {
+            PostDTO postDTO = PostDTO.mapper(post);
+            postDTOs.add(postDTO);
+        }
+
+        map.put("postList", postDTOs);
+
+        return map;
+    }
+
+    @GetMapping("/posts/V2")
+    public Map<String, Object> getPostsV2() {
+        Map<String, Object> map = new HashMap<>();
+
+        List<Post> postList = postService.findAll();
+        List<PostDTO> postDTOs = new ArrayList<>();
+
+        for (Post post : postList) {
+            PostDTO postDTO = PostDTO.mapper(post);
+            postDTOs.add(postDTO);
+        }
+
+        map.put("postList", postDTOs);
+
+        return map;
+    }
 
 //    @PutMapping("/post/{postId}")
 //    public Map<String, Object> updatePost(@ModelAttribute PostForm postForm) {

@@ -1,7 +1,6 @@
 package springJpa.dto;
 
 import springJpa.domain.Post;
-import springJpa.domain.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ public class PostDTO {
     private PostUserDTO postUserDTO;
 
     private List<CommentDTO> comments = new ArrayList<>();
+
 
     public Long getPostId() {
         return postId;
@@ -71,7 +71,7 @@ public class PostDTO {
         this.comments = comments;
     }
 
-    public static PostDTO mapper(Optional<Post> post) {
+    public static PostDTO optionalMapper(Optional<Post> post) {
         PostDTO postDto = new PostDTO(post.get().getId(), post.get().getTitle(), post.get().getContent(), post.get().getCreatedAt(),
                 new PostUserDTO(post.get().getUser().getId(), post.get().getUser().getName(), post.get().getCreatedAt()),
                 post.get().getComments().stream().map(comment ->
@@ -79,4 +79,19 @@ public class PostDTO {
         return postDto;
     }
 
+    public static PostDTO mapper(Post post) {
+        PostDTO postDto = new PostDTO(post.getId(), post.getTitle(), post.getContent(), post.getCreatedAt(),
+                new PostUserDTO(post.getUser().getId(), post.getUser().getName(), post.getCreatedAt()),
+                post.getComments().stream().map(comment ->
+                        new CommentDTO(comment.getId(), comment.getContent(), comment.getCreatedAt())).toList());
+        return postDto;
+    }
+
+    public static PostDTO mapper2(Post post) {
+        PostDTO postDto = new PostDTO(post.getId(), post.getTitle(), post.getContent(), post.getCreatedAt(),
+                new PostUserDTO(post.getUser().getId(), post.getUser().getName(), post.getCreatedAt()),
+                post.getComments().stream().map(comment ->
+                        new CommentDTO(comment.getId(), comment.getContent(), comment.getCreatedAt())).toList());
+        return postDto;
+    }
 }

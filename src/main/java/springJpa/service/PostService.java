@@ -9,6 +9,7 @@ import springJpa.repository.PostRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,12 +42,12 @@ public class PostService {
         return findPost;
     }
 
-//    @Transactional
-//    public List<Post> findAll() {
-//        List<Post> getPosts = postRepository.findAll();
-//
-//        return getPosts;
-//    }
+    @Transactional
+    public List<Post> findAll() {
+        List<Post> getPosts = postRepository.findAll();
+
+        return getPosts;
+    }
 
 //    @Transactional
 //    public void update(Post post) {
