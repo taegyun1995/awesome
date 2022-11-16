@@ -66,7 +66,7 @@ public class PostController {
         List<PostDTO> postDTOs = new ArrayList<>();
 
         for (Post post : postList) {
-            PostDTO postDTO = PostDTO.mapper(post);
+            PostDTO postDTO = PostDTO.mapper2(post);
             postDTOs.add(postDTO);
         }
 
