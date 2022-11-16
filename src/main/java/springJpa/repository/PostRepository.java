@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import springJpa.domain.Post;
 
-import java.util.List;
 import java.util.Optional;
 
 
@@ -15,9 +14,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Optional<Post> findById(Long id);
 
-    List<Post> findAll();
-
-
+//    List<Post> findAll();
 
 //    public List<Post> findByUserId(Long userId) {
 //        return em.createQuery("select p from Post p join fetch p.user u where p.user.id = : userId", Post.class)

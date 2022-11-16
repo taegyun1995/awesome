@@ -1,29 +1,29 @@
 package springJpa.domain;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Post {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     @Column(name = "postId")
     private Long id;
 
     private String title;
-    private String author;
+    private String content;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "userId")
-//    private User user;
-//
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "postId")
-//    private List<Comment> comments = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId")
+    private User user;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
+
+    private LocalDateTime createdAt;
+
 
     public Long getId() {
 
@@ -42,37 +42,47 @@ public class Post {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getContent() {
+        return content;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
-//
-//    public List<Comment> getComments() {
-//        return comments;
-//    }
-//
-//    public void setComments(List<Comment> comments) {
-//        this.comments = comments;
-//    }
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public Post() {
     }
 
-    public Post(Long id, String title, String author) {
+    public Post(Long id, String title, String content, User user, List<Comment> comments, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
-        this.author = author;
+        this.content = content;
+        this.user = user;
+        this.comments = comments;
+        this.createdAt = createdAt;
     }
 }

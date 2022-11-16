@@ -2,16 +2,6 @@ package springJpa;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.transaction.annotation.Transactional;
-import springJpa.domain.Comment;
-import springJpa.domain.Post;
-import springJpa.domain.User;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.time.LocalDateTime;
 
 @SpringBootApplication
 public class StudyApplication {
