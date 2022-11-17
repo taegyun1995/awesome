@@ -7,8 +7,10 @@ import springJpa.domain.User;
 import springJpa.repository.PostRepository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,16 +39,30 @@ public class PostService {
 
     @Transactional
     public Optional<Post> findOne(Long postId) {
-        Optional<Post> findPost = postRepository.findById(postId);
+//        Optional<Post> findPost = postRepository.findById(postId);
+//        return findPost;
 
-        return findPost;
+        // 1안 . 게시글 1개 조회 성능 향상
+        Post post = em.createQuery("select p from Post p join fetch p.user join fetch p.comments where p.id = : id ", Post.class)
+                .setParameter("id", postId)
+                .getSingleResult();
+
+        return Optional.ofNullable(post);
+
+        // 2안
+//        return em.createQuery("select p from Post p join fetch p.user join fetch p.comments where p.id = : id ", Post.class)
+//                .setParameter("id", postId)
+//                .getResultStream().findAny();
     }
 
     @Transactional
     public List<Post> findAll() {
-        List<Post> getPosts = postRepository.findAll();
-
-        return getPosts;
+//        List<Post> getPosts = postRepository.findAll();
+//
+//        return getPosts;
+        // 포스트 전체 조회 성능 향상
+        return em.createQuery("select p from Post p join fetch p.user join fetch p.comments", Post.class)
+                .getResultList();
     }
 
 //    @Transactional
