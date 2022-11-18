@@ -29,7 +29,9 @@ public class UserDTO {
         return posts;
     }
 
-    public List<CommentDTO> getComments() {return comments;}
+    public List<CommentDTO> getComments() {
+        return comments;
+    }
 
     public UserDTO() {
     }

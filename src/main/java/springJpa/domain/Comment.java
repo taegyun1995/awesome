@@ -6,7 +6,8 @@ import java.time.LocalDateTime;
 @Entity
 public class Comment {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "commentId")
     private Long id;
 

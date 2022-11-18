@@ -8,7 +8,8 @@ import java.util.List;
 @Entity
 public class Post {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "postId")
     private Long id;
 

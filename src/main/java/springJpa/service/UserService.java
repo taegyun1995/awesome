@@ -26,11 +26,9 @@ public class UserService {
     @Transactional
     public User save(User user) {
         LocalDateTime date = LocalDateTime.now();
-
         user.setCreatedAt(date);
         User saveUser = userRepository.save(user);
         em.persist(saveUser);
-
 
         return saveUser;
     }
