@@ -21,7 +21,9 @@ public class UserController {
     public Map<String, Object> save(@ModelAttribute User user) {
         Map<String, Object> map = new HashMap<>();
         User saveUser = userService.save(user);
-        map.put("user", saveUser);
+        UserDTO userDTO = new UserDTO(saveUser.getId(), saveUser.getName(), saveUser.getCreatedAt());
+
+        map.put("user", userDTO);
 
         return map;
     }

@@ -3,7 +3,7 @@ package springJpa.controller;
 import org.springframework.web.bind.annotation.*;
 import springJpa.domain.Post;
 import springJpa.dto.PostDTO;
-import springJpa.dto.PostUserDTO;
+import springJpa.dto.UserDTO;
 import springJpa.service.PostService;
 
 import java.util.*;
@@ -23,7 +23,7 @@ public class PostController {
 
         Post savePost = postService.create(post);
         PostDTO postDto = new PostDTO(savePost.getId(), savePost.getTitle(), savePost.getContent(), savePost.getCreatedAt(),
-                new PostUserDTO(savePost.getUser().getId(), savePost.getUser().getName(), savePost.getUser().getCreatedAt()));
+                new UserDTO(savePost.getUser().getId(), savePost.getUser().getName(), savePost.getUser().getCreatedAt()));
 
         map.put("post", postDto);
 

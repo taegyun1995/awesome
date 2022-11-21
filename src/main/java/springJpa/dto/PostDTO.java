@@ -15,10 +15,11 @@ public class PostDTO {
 
     private LocalDateTime createdAt;
 
-    private PostUserDTO postUserDTO;
+    private UserDTO userDTO;
 
     private List<CommentDTO> comments = new ArrayList<>();
-    private int size;
+
+    private int commentSize;
 
     public Long getPostId() {
         return postId;
@@ -36,16 +37,16 @@ public class PostDTO {
         return createdAt;
     }
 
-    public PostUserDTO getPostUserDTO() {
-        return postUserDTO;
+    public UserDTO getUserDTO() {
+        return userDTO;
     }
 
     public List<CommentDTO> getComments() {
         return comments;
     }
 
-    public int getSize() {
-        return size;
+    public int getCommentSize() {
+        return commentSize;
     }
 
     public PostDTO() {
@@ -58,35 +59,35 @@ public class PostDTO {
         this.createdAt = createdAt;
     }
 
-    public PostDTO(Long postId, String title, String content, LocalDateTime createdAt, PostUserDTO postUserDTO, int size) {
+    public PostDTO(Long postId, String title, String content, LocalDateTime createdAt, UserDTO userDTO, int size) {
         this.postId = postId;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
-        this.postUserDTO = postUserDTO;
-        this.size = size;
+        this.userDTO = userDTO;
+        this.commentSize = commentSize;
     }
 
-    public PostDTO(Long postId, String title, String content, LocalDateTime createdAt, PostUserDTO postUserDTO) {
+    public PostDTO(Long postId, String title, String content, LocalDateTime createdAt, UserDTO userDTO) {
         this.postId = postId;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
-        this.postUserDTO = postUserDTO;
+        this.userDTO = userDTO;
     }
 
-    public PostDTO(Long postId, String title, String content, LocalDateTime createdAt, PostUserDTO postUserDTO, List<CommentDTO> comments) {
+    public PostDTO(Long postId, String title, String content, LocalDateTime createdAt, UserDTO userDTO, List<CommentDTO> comments) {
         this.postId = postId;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
-        this.postUserDTO = postUserDTO;
+        this.userDTO = userDTO;
         this.comments = comments;
     }
 
     public static PostDTO optionalMapper(Optional<Post> post) {
         PostDTO postDto = new PostDTO(post.get().getId(), post.get().getTitle(), post.get().getContent(), post.get().getCreatedAt(),
-                new PostUserDTO(post.get().getUser().getId(), post.get().getUser().getName(), post.get().getCreatedAt()),
+                new UserDTO(post.get().getUser().getId(), post.get().getUser().getName(), post.get().getCreatedAt()),
                 post.get().getComments().stream().map(comment ->
                         new CommentDTO(comment.getId(), comment.getContent(), comment.getCreatedAt())).toList());
         return postDto;
@@ -94,7 +95,7 @@ public class PostDTO {
 
     public static PostDTO mapper(Post post) {
         PostDTO postDto = new PostDTO(post.getId(), post.getTitle(), post.getContent(), post.getCreatedAt(),
-                new PostUserDTO(post.getUser().getId(), post.getUser().getName(), post.getCreatedAt()),
+                new UserDTO(post.getUser().getId(), post.getUser().getName(), post.getCreatedAt()),
                 post.getComments().stream().map(comment ->
                         new CommentDTO(comment.getId(), comment.getContent(), comment.getCreatedAt())).toList());
         return postDto;
@@ -102,7 +103,7 @@ public class PostDTO {
 
     public static PostDTO mapper2(Post post) {
         PostDTO postDto = new PostDTO(post.getId(), post.getTitle(), post.getContent(), post.getCreatedAt(),
-                new PostUserDTO(post.getUser().getId(), post.getUser().getName(), post.getCreatedAt()),
+                new UserDTO(post.getUser().getId(), post.getUser().getName(), post.getCreatedAt()),
                 post.getComments().size());
         return postDto;
     }

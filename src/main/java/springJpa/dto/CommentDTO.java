@@ -8,9 +8,9 @@ public class CommentDTO {
     private String content;
     private LocalDateTime createdAt;
 
-    private CommentUserDTO commentUserDTO;
+    private UserDTO userDTO;
 
-    private CommentPostDTO commentPostDTO;
+    private PostDTO postDTO;
 
     public Long getCommentId() {
         return commentId;
@@ -24,12 +24,12 @@ public class CommentDTO {
         return createdAt;
     }
 
-    public CommentUserDTO getCommentUserDTO() {
-        return commentUserDTO;
+    public UserDTO getUserDTO() {
+        return userDTO;
     }
 
-    public CommentPostDTO getCommentPostDTO() {
-        return commentPostDTO;
+    public PostDTO getPostDTO() {
+        return postDTO;
     }
 
     public CommentDTO() {
@@ -41,11 +41,11 @@ public class CommentDTO {
         this.createdAt = createdAt;
     }
 
-    public CommentDTO(Long commentId, String content, LocalDateTime createdAt, CommentUserDTO commentUserDTO, CommentPostDTO commentPostDTO) {
+    public CommentDTO(Long commentId, String content, LocalDateTime createdAt, UserDTO userDTO, PostDTO postDTO) {
         this.commentId = commentId;
         this.content = content;
         this.createdAt = createdAt;
-        this.commentUserDTO = commentUserDTO;
-        this.commentPostDTO = commentPostDTO;
+        this.userDTO = userDTO;
+        this.postDTO = postDTO;
     }
 }
