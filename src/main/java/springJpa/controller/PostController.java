@@ -6,6 +6,7 @@ import springJpa.dto.PostDTO;
 import springJpa.dto.UserDTO;
 import springJpa.service.PostService;
 
+import java.awt.print.Pageable;
 import java.util.*;
 
 @RestController
@@ -86,27 +87,27 @@ public class PostController {
 //    }
 
 
-//    @GetMapping("/posts")
-//    public Map<String, Object> getPostPage(@RequestParam("postId") Long postId,
-//                                           @RequestParam("page") int page,
-//                                           Pageable pageable) {
-//
-//        Map<String, Object> map = new HashMap<>();
-////        List<Post> posts = postService.findAll(userId);
-////        List<Post> postList = postService.findTop3Limit(userId);
-//        PageRequest pr = PageRequest.of(page - 1, 5);
-////        Page<Post> postList = postRepository.findByUserIdOrderByIdDesc(userId, pr);
-//        List<Post> postList = postService.findByIdOrderByIdDesc(postId, pr);
-//
-//        int postSize = postRepository.findAll().size();
-//
-//        int lastPage = Math.max((int) Math.ceil(postSize / 5), 1);
-//
-//        // { post_list: [] }
-//        map.put("post_list", postList);
-////        map.put("pageable", postList);
-//        map.put("last_page", lastPage);
-//
-//        return map;
-//    }
+    @GetMapping("/posts")
+    public Map<String, Object> getPostPage(@RequestParam("postId") Long postId,
+                                           @RequestParam("page") int page,
+                                           Pageable pageable) {
+
+        Map<String, Object> map = new HashMap<>();
+//        List<Post> posts = postService.findAll(userId);
+//        List<Post> postList = postService.findTop3Limit(userId);
+        PageRequest pr = PageRequest.of(page - 1, 5);
+//        Page<Post> postList = postRepository.findByUserIdOrderByIdDesc(userId, pr);
+        List<Post> postList = postService.findByIdOrderByIdDesc(postId, pr);
+
+        int postSize = postRepository.findAll().size();
+
+        int lastPage = Math.max((int) Math.ceil(postSize / 5), 1);
+
+        // { post_list: [] }
+        map.put("post_list", postList);
+//        map.put("pageable", postList);
+        map.put("last_page", lastPage);
+
+        return map;
+    }
 }

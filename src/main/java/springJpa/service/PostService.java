@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springJpa.domain.Post;
 import springJpa.domain.User;
+import springJpa.dto.PostDTO;
 import springJpa.repository.PostRepository;
 
 import javax.persistence.EntityManager;
@@ -31,8 +32,8 @@ public class PostService {
         LocalDateTime date = LocalDateTime.now();
 
         post.setCreatedAt(date);
+        post.setCommentSize(0);
         Post savePost = postRepository.save(post);
-        em.persist(savePost);
 
         return savePost;
     }
@@ -75,14 +76,20 @@ public class PostService {
 //        postRepository.save(findPost);
 //    }
 
-//    @Transactional
-//    public void update(PostForm postForm) {
-//        Post findPost = postRepository.findById(postForm.getPostId()).get();
-//
-//        findPost.setTitle(postForm.getTitle());
-//        findPost.setAuthor(postForm.getAuthor());
-//        postRepository.save(findPost);
-//    }
+    @Transactional
+    public void update(PostDTO postDTO) {
+        Post findPost = postRepository.findById(postDTO.getPostId()).get();
+
+        findPost.setTitle(postDTO.getTitle());
+        postRepository.save(findPost);
+    }
+
+    @Transactional
+    public void updateCommentSize(PostDTO postDTO) {
+        Post findPost = postRepository.findById(postDTO.getPostId()).get();
+
+        findPost.addCommentSize();
+    }
 
 //    @Transactional
 //    public List<Post> findByIdOrderByIdDesc(Long id, Pageable pageable) {

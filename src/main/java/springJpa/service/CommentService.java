@@ -3,7 +3,6 @@ package springJpa.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springJpa.domain.Comment;
-import springJpa.domain.Post;
 import springJpa.repository.CommentRepository;
 
 import javax.persistence.EntityManager;

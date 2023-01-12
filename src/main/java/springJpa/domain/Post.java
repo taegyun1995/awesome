@@ -1,5 +1,7 @@
 package springJpa.domain;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,11 +27,10 @@ public class Post {
 
     private LocalDateTime createdAt;
 
+    @Column(columnDefinition = "integer default '0'")
+    private Integer commentSize;
 
-    public Long getId() {
-
-        return id;
-    }
+    public Long getId() { return id; }
 
     public void setId(Long id) {
         this.id = id;
@@ -75,15 +76,29 @@ public class Post {
         this.createdAt = createdAt;
     }
 
+    public Integer getCommentSize() {
+        return commentSize;
+    }
+
+    public void setCommentSize(Integer commentSize) {
+        this.commentSize = commentSize;
+    }
+
+    public void addCommentSize() {
+        commentSize = 0;
+        this.commentSize++;
+    }
+
     public Post() {
     }
 
-    public Post(Long id, String title, String content, User user, List<Comment> comments, LocalDateTime createdAt) {
+    public Post(Long id, String title, String content, User user, List<Comment> comments, LocalDateTime createdAt, Integer commentSize) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.user = user;
         this.comments = comments;
         this.createdAt = createdAt;
+        this.commentSize = commentSize;
     }
 }

@@ -19,7 +19,7 @@ public class PostDTO {
 
     private List<CommentDTO> comments = new ArrayList<>();
 
-    private int commentSize;
+    private Integer commentSize;
 
     public Long getPostId() {
         return postId;
@@ -45,8 +45,17 @@ public class PostDTO {
         return comments;
     }
 
-    public int getCommentSize() {
+    public Integer getCommentSize() {
         return commentSize;
+    }
+
+    public void setCommentSize(Integer commentSize) {
+        this.commentSize = commentSize;
+    }
+
+    public void addCommentSize() {
+        commentSize = 0;
+        this.commentSize++;
     }
 
     public PostDTO() {
@@ -59,7 +68,7 @@ public class PostDTO {
         this.createdAt = createdAt;
     }
 
-    public PostDTO(Long postId, String title, String content, LocalDateTime createdAt, UserDTO userDTO, int size) {
+    public PostDTO(Long postId, String title, String content, LocalDateTime createdAt, UserDTO userDTO, Integer commentSize) {
         this.postId = postId;
         this.title = title;
         this.content = content;
